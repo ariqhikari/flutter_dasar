@@ -8,21 +8,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("My First Flutter"),
+          title: Text("Latihan Row dan Column"),
         ),
-        body: Center(
-            child: Container(
-                color: Colors.lightBlue,
-                width: 150,
-                height: 100,
-                child: Text(
-                  "Saya sedang melatih kemampuan flutter saya.",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ))),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text("Text 1"),
+            Text("Text 2"),
+            Text("Text 3"),
+            Row(
+              children: <Widget>[
+                Text("Text 4"),
+                Text("Text 5"),
+                Text("Text 6"),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
