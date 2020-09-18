@@ -8,45 +8,25 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Widget> widgets = [];
-  int counter = 1;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("List & ListView")),
-        body: ListView(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                RaisedButton(
-                    child: Text("Tambah Data"),
-                    onPressed: () {
-                      setState(() {
-                        widgets.add(Text("Data ke-" + counter.toString(),
-                            style: TextStyle(
-                              fontSize: 40,
-                            )));
-                        counter++;
-                      });
-                    }),
-                RaisedButton(
-                    child: Text("Tambah Data"),
-                    onPressed: () {
-                      setState(() {
-                        widgets.removeLast();
-                        counter--;
-                      });
-                    }),
-              ],
+        appBar: AppBar(title: Text("Text Style")),
+        body: Center(
+          child: Text(
+            "Ini adalah Text",
+            style: TextStyle(
+              fontFamily: "Montserrat",
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.red,
+              decorationThickness: 5,
+              decorationStyle: TextDecorationStyle.solid,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: widgets,
-            )
-          ],
+          ),
         ),
       ),
     );
