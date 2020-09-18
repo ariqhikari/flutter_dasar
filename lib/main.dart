@@ -7,95 +7,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("Stack & Align Widget")),
-        body: Stack(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Flexible(
-                    flex: 1,
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                          flex: 1,
-                          child: Container(color: Colors.white),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Container(color: Colors.black12),
-                        ),
-                      ],
-                    )),
-                Flexible(
-                    flex: 1,
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                          flex: 1,
-                          child: Container(color: Colors.black12),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Container(color: Colors.white),
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-            ListView(
-              children: <Widget>[
-                Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(25),
-                      child: Text(
-                        "Ini adalah text yang ada di lapisan tengah dari Stack",
-                        style: TextStyle(fontSize: 50),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(25),
-                      child: Text(
-                        "Ini adalah text yang ada di lapisan tengah dari Stack",
-                        style: TextStyle(fontSize: 50),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(25),
-                      child: Text(
-                        "Ini adalah text yang ada di lapisan tengah dari Stack",
-                        style: TextStyle(fontSize: 50),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(25),
-                      child: Text(
-                        "Ini adalah text yang ada di lapisan tengah dari Stack",
-                        style: TextStyle(fontSize: 50),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(25),
-                      child: Text(
-                        "Ini adalah text yang ada di lapisan tengah dari Stack",
-                        style: TextStyle(fontSize: 50),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            Align(
-              alignment: Alignment(0.9, 0.9),
-              child: RaisedButton(
-                child: Text("My Button"),
-                color: Colors.amber,
-                onPressed: () {},
+          appBar: AppBar(title: Text("Image Widget")),
+          body: Center(
+            child: Container(
+              color: Colors.blueAccent,
+              width: 200,
+              height: 200,
+              padding: EdgeInsets.all(3),
+              child: Image(
+                image: AssetImage("assets/img/bg.jpg"),
+                fit: BoxFit.cover,
               ),
             ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
