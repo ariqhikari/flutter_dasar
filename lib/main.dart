@@ -1,35 +1,51 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  Random random = Random();
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("Latihan Animated Container")),
-        body: Center(
-          child: GestureDetector(
-            onTap: () {
-              setState(() {});
-            },
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 500),
-              width: 50.0 + random.nextInt(101),
-              height: 50.0 + random.nextInt(101),
-              color: Color.fromRGBO(random.nextInt(256), random.nextInt(256),
-                  random.nextInt(256), 1),
+        appBar: AppBar(title: Text("Flexible Layout")),
+        body: Column(
+          children: <Widget>[
+            Flexible(
+              flex: 1,
+              child: Row(children: [
+                Flexible(
+                    flex: 1,
+                    child: Container(
+                      margin: EdgeInsets.all(5),
+                      color: Colors.red,
+                    )),
+                Flexible(
+                    flex: 1,
+                    child: Container(
+                      margin: EdgeInsets.all(5),
+                      color: Colors.green,
+                    )),
+                Flexible(
+                    flex: 1,
+                    child: Container(
+                      margin: EdgeInsets.all(5),
+                      color: Colors.purple,
+                    )),
+              ]),
             ),
-          ),
+            Flexible(
+                flex: 2,
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  color: Colors.amber,
+                )),
+            Flexible(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  color: Colors.blue,
+                )),
+          ],
         ),
       ),
     );
