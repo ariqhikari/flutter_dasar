@@ -7,30 +7,102 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          leading: Icon(Icons.adb, color: Colors.white),
-          title: Text("AppBar Gradasi", style: TextStyle(color: Colors.white)),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () {},
-            ),
-          ],
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Color(0xff0096ff), Color(0xff6610f2)],
-                    begin: FractionalOffset.topLeft,
-                    end: FractionalOffset.bottomRight),
-                image: DecorationImage(
-                  image: AssetImage("assets/img/pattern.png"),
-                  fit: BoxFit.none,
-                  repeat: ImageRepeat.repeat,
-                )),
+        backgroundColor: Colors.green,
+        body: Container(
+          margin: EdgeInsets.all(10),
+          child: ListView(
+            children: <Widget>[
+              BuildCard(Icons.account_box, "Account Box"),
+              BuildCard(Icons.adb, "Serangga Android"),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BuildCard extends StatelessWidget {
+  // const BuildCard({
+  //   Key key,
+  //   IconData iconData,
+  //   String text
+  // }) : super(key: key);
+
+  final IconData iconData;
+  final String text;
+
+  BuildCard(this.iconData, this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return FractionallySizedBox(
+      widthFactor: 0.7,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Card(
+          elevation: 5,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        child: Icon(
+                          this.iconData,
+                          color: Colors.green,
+                          size: 50,
+                        ),
+                      ),
+                      Text(this.text),
+                    ],
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        child: Icon(
+                          this.iconData,
+                          color: Colors.green,
+                          size: 50,
+                        ),
+                      ),
+                      Text(this.text),
+                    ],
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        child: Icon(
+                          this.iconData,
+                          color: Colors.green,
+                          size: 50,
+                        ),
+                      ),
+                      Text(this.text),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
