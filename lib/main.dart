@@ -4,31 +4,39 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  TabBar myTabBar = TabBar(
+    indicator: BoxDecoration(
+      color: Colors.red,
+      border: Border(
+        top: BorderSide(
+          color: Colors.purple,
+          width: 5,
+        ),
+      ),
+    ),
+    tabs: <Widget>[
+      Tab(
+        icon: Icon(Icons.comment),
+        text: "Comments",
+      ),
+      Tab(
+        icon: Icon(Icons.computer),
+        text: "Computers",
+      ),
+    ],
+  );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 4,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             title: Text("Contoh Tab Bar"),
-            bottom: TabBar(
-              tabs: <Widget>[
-                Tab(
-                  icon: Icon(Icons.comment),
-                  text: "Comments",
-                ),
-                Tab(
-                  child: Image(
-                    image: NetworkImage(
-                        "https://img2.pngio.com/food-computer-icons-peach-cute-icons-free-png-pngfuel-cute-icons-png-910_512.png"),
-                  ),
-                ),
-                Tab(icon: Icon(Icons.computer)),
-                Tab(
-                  text: "News",
-                ),
-              ],
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(myTabBar.preferredSize.height),
+              child: Container(color: Colors.amber, child: myTabBar),
             ),
           ),
           body: TabBarView(
@@ -38,12 +46,6 @@ class MyApp extends StatelessWidget {
               ),
               Center(
                 child: Text("Tab 2"),
-              ),
-              Center(
-                child: Text("Tab 3"),
-              ),
-              Center(
-                child: Text("Tab 4"),
               ),
             ],
           ),
