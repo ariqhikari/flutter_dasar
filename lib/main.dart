@@ -1,140 +1,219 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
-      home: MainPage(),
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(),
     );
   }
 }
 
-class MainPage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
+  double getSmallDiameter(BuildContext context) =>
+      MediaQuery.of(context).size.width * 2 / 3;
+
+  double getBigDiameter(BuildContext context) =>
+      MediaQuery.of(context).size.width * 7 / 8;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Custom Card Example",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Color(0xFF8C062F),
-      ),
+      backgroundColor: Color(0xFFEEEEEE),
       body: Stack(
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFFFE5788), Color(0xFFF56D5D)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+          Positioned(
+            right: -getSmallDiameter(context) / 3,
+            top: -getSmallDiameter(context) / 3,
+            child: Container(
+              width: getSmallDiameter(context),
+              height: getSmallDiameter(context),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  colors: [Color(0xFFB226B2), Color(0xFFFF6DA7)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
               ),
             ),
           ),
-          Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: Card(
-                elevation: 10,
-                child: Stack(
-                  children: <Widget>[
-                    Opacity(
-                      opacity: 0.2,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          image: DecorationImage(
-                            image: AssetImage("assets/img/pattern.jpg"),
-                            fit: BoxFit.cover,
+          Positioned(
+            left: -getBigDiameter(context) / 4,
+            top: -getBigDiameter(context) / 4,
+            child: Container(
+              child: Center(
+                child: Text(
+                  "dribbble",
+                  style: TextStyle(
+                      fontFamily: "Pacifico",
+                      fontSize: 30,
+                      color: Colors.white),
+                ),
+              ),
+              width: getBigDiameter(context),
+              height: getBigDiameter(context),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  colors: [Color(0xFFB226B2), Color(0xFFFF4891)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            right: -getBigDiameter(context) / 2,
+            bottom: -getBigDiameter(context) / 2,
+            child: Container(
+              width: getBigDiameter(context),
+              height: getBigDiameter(context),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xFFF3E9EE),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 300, 20, 10),
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 25),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      TextField(
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.email, color: Color(0xFFFF4891)),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFFFF4891),
+                            ),
+                          ),
+                          labelText: "Email: ",
+                          labelStyle: TextStyle(color: Color(0xFFFF4891)),
+                        ),
+                      ),
+                      TextField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.vpn_key, color: Color(0xFFFF4891)),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFFFF4891),
+                            ),
+                          ),
+                          labelText: "Password: ",
+                          labelStyle: TextStyle(color: Color(0xFFFF4891)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(0, 0, 20, 20),
+                    child: Text(
+                      "FORGOT PASSWORD?",
+                      style: TextStyle(
+                        color: Color(0xFFFF4891),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: 40,
+                        child: Container(
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20),
+                              splashColor: Colors.amber,
+                              onTap: () {},
+                              child: Center(
+                                child: Text(
+                                  "SIGN IN",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: LinearGradient(
+                              colors: [Color(0xFFB226B2), Color(0xFFFF4891)],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
                           ),
                         ),
                       ),
+                      FloatingActionButton(
+                        onPressed: () {},
+                        mini: true,
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        child: SvgPicture.asset("assets/icons/facebook.svg"),
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {},
+                        mini: true,
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        child: SvgPicture.asset("assets/icons/facebook.svg"),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "DON'T HAVE AN ACCOUNT?  ",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey,
+                      ),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.35,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(4),
-                            topRight: Radius.circular(4),
-                          ),
-                          image: DecorationImage(
-                            image: AssetImage("assets/img/bg.jpg"),
-                            fit: BoxFit.cover,
-                          )),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          20,
-                          70 + MediaQuery.of(context).size.height * 0.35,
-                          20,
-                          20),
-                      child: Center(
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              "Beautiful Sunset at Everest Mountain",
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFFF56D5D),
-                                fontSize: 35,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 20, 0, 15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    "Posted on ",
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Sep 20, 2020",
-                                    style: TextStyle(
-                                      color: Color(0xFFF56D5D),
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                              child: Row(
-                                children: <Widget>[
-                                  Spacer(flex: 10),
-                                  Icon(Icons.thumb_up,
-                                      size: 18, color: Colors.grey),
-                                  Spacer(flex: 1),
-                                  Text("99",
-                                      style: TextStyle(color: Colors.grey)),
-                                  Spacer(flex: 5),
-                                  Icon(Icons.comment,
-                                      size: 18, color: Colors.grey),
-                                  Spacer(flex: 1),
-                                  Text("888",
-                                      style: TextStyle(color: Colors.grey)),
-                                  Spacer(flex: 10),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                    Text(
+                      "SIGN UP",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFFFF4891),
                       ),
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );
