@@ -1,5 +1,6 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
 
 void main() => runApp(MyApp());
 
@@ -7,40 +8,69 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MainPage(),
-    );
-  }
-}
-
-class MainPage extends StatefulWidget {
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  String text = "Hasil QR Scan";
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("QR Scan")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(text),
-            SizedBox(
-              height: 20,
+      title: 'Font Features',
+      theme: ThemeData(fontFamily: 'Montserrat'),
+      home: Scaffold(
+        appBar: AppBar(title: Text("Font Features")),
+        body: Center(
+          child: ListView(children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text(
+                  "Contoh 01 (Tanpa apapun)",
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+                Text(
+                  "Contoh 02 (Small Caps)",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontFeatures: [FontFeature.enable("smcp")],
+                  ),
+                ),
+                Text(
+                  "Contoh 1/2 (Small Caps & Frac)",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontFeatures: [
+                      FontFeature.enable("smcp"),
+                      FontFeature.enable("frac"),
+                    ],
+                  ),
+                ),
+                Text(
+                  "Contoh Montserrat 19 (Tanpa apapun)",
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+                Text(
+                  "Contoh Montserrat 19 (Old Style)",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontFeatures: [FontFeature.oldstyleFigures()],
+                  ),
+                ),
+                Text(
+                  "Contoh Pacifico (Default)",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontFamily: "Pacifico",
+                  ),
+                ),
+                Text(
+                  "Contoh Pacifico (Style set nomor 5)",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontFamily: "Pacifico",
+                    fontFeatures: [FontFeature.stylisticSet(5)],
+                  ),
+                ),
+              ],
             ),
-            RaisedButton(
-              child: Text("Scan"),
-              onPressed: () async {
-                text = await scanner.scan();
-                setState(() {});
-              },
-            ),
-          ],
+          ]),
         ),
       ),
     );
