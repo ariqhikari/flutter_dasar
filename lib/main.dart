@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_flutter/api/post_result_model.dart';
+import 'package:my_first_flutter/api/user_model.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,6 +11,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   PostResult postResult = null;
+  User user = null;
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +22,14 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Text((postResult != null)
-                  ? postResult.id +
-                      " | " +
-                      postResult.name +
-                      " | " +
-                      postResult.job +
-                      " | " +
-                      postResult.created
+              Text((user != null)
+                  ? user.id + " | " + user.name
                   : "Tidak ada data"),
               RaisedButton(
-                child: Text("POST"),
+                child: Text("GET"),
                 onPressed: () {
-                  PostResult.connectToAPI("Daffa", "Programmer").then((value) {
-                    postResult = value;
+                  User.connectToAPI("4").then((value) {
+                    user = value;
                     setState(() {});
                   });
                 },
