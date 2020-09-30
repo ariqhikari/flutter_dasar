@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,72 +9,64 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  double myPadding = 5;
+  TextEditingController controller = TextEditingController(text: "No Name");
+  bool isON = false;
+
+  void saveData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString("nama", controller.text);
+    pref.setBool("ison", isON);
+  }
+
+  Future<String> getNama() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString("nama") ?? "No Name";
+  }
+
+  Future<bool> getON() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getBool("ison") ?? "No Name";
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("AnimatedPadding")),
-        body: Column(
-          children: <Widget>[
-            Flexible(
-                flex: 1,
-                child: Row(
-                  children: <Widget>[
-                    Flexible(
-                      flex: 1,
-                      child: AnimatedPadding(
-                        duration: Duration(seconds: 1),
-                        padding: EdgeInsets.all(myPadding),
-                        child: GestureDetector(
-                          child: Container(color: Colors.red),
-                          onTap: () {
-                            setState(() {
-                              myPadding = 20;
-                            });
-                          },
-                          onTapCancel: () {
-                            setState(() {
-                              myPadding = 5;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: AnimatedPadding(
-                        duration: Duration(seconds: 1),
-                        padding: EdgeInsets.all(myPadding),
-                        child: Container(color: Colors.green),
-                      ),
-                    ),
-                  ],
-                )),
-            Flexible(
-                flex: 1,
-                child: Row(
-                  children: <Widget>[
-                    Flexible(
-                      flex: 1,
-                      child: AnimatedPadding(
-                        duration: Duration(seconds: 1),
-                        padding: EdgeInsets.all(myPadding),
-                        child: Container(color: Colors.blue),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: AnimatedPadding(
-                        duration: Duration(seconds: 1),
-                        padding: EdgeInsets.all(myPadding),
-                        child: Container(color: Colors.yellow),
-                      ),
-                    ),
-                  ],
-                )),
-          ],
+        appBar: AppBar(title: Text("Shared Preferences")),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              TextField(controller: controller),
+              Switch(
+                value: isON,
+                onChanged: (newValue) {
+                  setState(() {
+                    isON = newValue;
+                  });
+                },
+              ),
+              RaisedButton(
+                child: Text("Save"),
+                onPressed: () {
+                  saveData();
+                },
+              ),
+              RaisedButton(
+                child: Text("Load"),
+                onPressed: () {
+                  getNama().then((value) {
+                    controller.text = value;
+                    setState(() {});
+                  });
+                  getON().then((value) {
+                    isON = value;
+                    setState(() {});
+                  });
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
