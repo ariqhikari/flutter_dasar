@@ -1,71 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:my_first_flutter/includes/application_color.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  TextEditingController controller = TextEditingController(text: "No Name");
-  bool isON = false;
-
-  void saveData() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString("nama", controller.text);
-    pref.setBool("ison", isON);
-  }
-
-  Future<String> getNama() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString("nama") ?? "No Name";
-  }
-
-  Future<bool> getON() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getBool("ison") ?? "No Name";
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text("Shared Preferences")),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              TextField(controller: controller),
-              Switch(
-                value: isON,
-                onChanged: (newValue) {
-                  setState(() {
-                    isON = newValue;
-                  });
-                },
+      home: ChangeNotifierProvider<ApplicationColor>(
+        create: (context) => ApplicationColor(),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            title: Consumer<ApplicationColor>(
+              builder: (context, applicationColor, _) => Text(
+                "Provider State Management",
+                style: TextStyle(color: applicationColor.color),
               ),
-              RaisedButton(
-                child: Text("Save"),
-                onPressed: () {
-                  saveData();
-                },
-              ),
-              RaisedButton(
-                child: Text("Load"),
-                onPressed: () {
-                  getNama().then((value) {
-                    controller.text = value;
-                    setState(() {});
-                  });
-                  getON().then((value) {
-                    isON = value;
-                    setState(() {});
-                  });
-                },
-              ),
-            ],
+            ),
+          ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Consumer<ApplicationColor>(
+                  builder: (context, applicationColor, _) => AnimatedContainer(
+                    width: 200,
+                    height: 200,
+                    color: applicationColor.color,
+                    duration: Duration(milliseconds: 500),
+                    margin: EdgeInsets.all(5),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      child: Text("AB"),
+                    ),
+                    Consumer<ApplicationColor>(
+                      builder: (context, applicationColor, _) => Switch(
+                        value: applicationColor.isLightBlue,
+                        onChanged: (newValue) {
+                          applicationColor.isLightBlue = newValue;
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      child: Text("LB"),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
