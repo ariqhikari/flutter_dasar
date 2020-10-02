@@ -7,7 +7,7 @@ enum ColorEvent { to_amber, to_lightBlue }
 class ColorBloc extends Bloc<ColorEvent, Color> {
   Color _color = Colors.amber;
 
-  /// [initialState] diisi dengan **warna** yang ingin dijadikan sebagai **warna** default
+  /// [initialState] diisi dengan **warna** yang ingin dijadikan sebagai `warna` default
   ///
   /// Contoh:
   /// ```

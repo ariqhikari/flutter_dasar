@@ -1,52 +1,79 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_first_flutter/bloc/color_bloc.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isStop = true;
+  bool isBlack = true;
+  int counter = 0;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BlocProvider<ColorBloc>(
-        create: (context) => ColorBloc(Colors.amber),
-        child: MainPage(),
-      ),
-    );
-  }
-}
-
-class MainPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    ColorBloc bloc = BlocProvider.of<ColorBloc>(context);
-    return Scaffold(
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FloatingActionButton(
-            backgroundColor: Colors.amber,
-            onPressed: () {
-              bloc.add(ColorEvent.to_amber);
-            },
-          ),
-          SizedBox(width: 10),
-          FloatingActionButton(
-            backgroundColor: Colors.lightBlue,
-            onPressed: () {
-              bloc.add(ColorEvent.to_lightBlue);
-            },
-          ),
-        ],
-      ),
-      appBar: AppBar(title: Text("BLoC dengan flutter_bloc")),
-      body: Center(
-        child: BlocBuilder<ColorBloc, Color>(
-          builder: (context, currentColor) => AnimatedContainer(
-            width: 200,
-            height: 200,
-            color: currentColor,
-            duration: Duration(milliseconds: 500),
+      home: Scaffold(
+        appBar: AppBar(title: Text("Timer Demo")),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                counter.toString(),
+                style: TextStyle(
+                  color: (isBlack) ? Colors.black : Colors.red,
+                  fontSize: 50,
+                ),
+              ),
+              SizedBox(height: 10),
+              RaisedButton(
+                child: Text("Ubah warna 5 detik kemudian"),
+                onPressed: () {
+                  Timer(Duration(seconds: 5), () {
+                    setState(() {
+                      isBlack = !isBlack;
+                    });
+                  });
+                },
+              ),
+              SizedBox(height: 10),
+              RaisedButton(
+                child: Text("Ubah warna secara langsung"),
+                onPressed: () {
+                  Timer.run(() {
+                    setState(() {
+                      isBlack = !isBlack;
+                    });
+                  });
+                },
+              ),
+              SizedBox(height: 10),
+              RaisedButton(
+                child: Text("Start Timer"),
+                onPressed: () {
+                  counter = 0;
+                  isStop = false;
+                  Timer.periodic(Duration(seconds: 1), (timer) {
+                    if (isStop) timer.cancel();
+                    setState(() {
+                      counter++;
+                    });
+                  });
+                },
+              ),
+              SizedBox(height: 10),
+              RaisedButton(
+                child: Text("Stop Timer"),
+                onPressed: () {
+                  isStop = true;
+                },
+              ),
+            ],
           ),
         ),
       ),
