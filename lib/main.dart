@@ -1,82 +1,57 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:my_first_flutter/components/product_card.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  bool isStop = true;
-  bool isBlack = true;
-  int counter = 0;
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: Text("Timer Demo")),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                counter.toString(),
-                style: TextStyle(
-                  color: (isBlack) ? Colors.black : Colors.red,
-                  fontSize: 50,
+        appBar: AppBar(
+          backgroundColor: firstColor,
+          title: Text("Product Card"),
+        ),
+        body: ChangeNotifierProvider<ProductState>(
+          create: (context) => ProductState(),
+          child: Container(
+            margin: EdgeInsets.all(20),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Consumer<ProductState>(
+                builder: (context, productState, _) => ProductCard(
+                  imageURL:
+                      "https://www.healthyeating.org/images/default-source/home-0.0/nutrition-topics-2.0/general-nutrition-wellness/2-2-2-3foodgroups_fruits_detailfeature.jpg",
+                  name: "Buah-buahan Mix 1 kg",
+                  price: "Rp25.000",
+                  quantity: productState.quantity,
+                  notification:
+                      (productState.quantity > 5) ? "Diskon 10%" : null,
+                  onAddCartTap: () {},
+                  onIncTap: () {
+                    productState.quantity++;
+                  },
+                  onDecTap: () {
+                    productState.quantity--;
+                  },
                 ),
               ),
-              SizedBox(height: 10),
-              RaisedButton(
-                child: Text("Ubah warna 5 detik kemudian"),
-                onPressed: () {
-                  Timer(Duration(seconds: 5), () {
-                    setState(() {
-                      isBlack = !isBlack;
-                    });
-                  });
-                },
-              ),
-              SizedBox(height: 10),
-              RaisedButton(
-                child: Text("Ubah warna secara langsung"),
-                onPressed: () {
-                  Timer.run(() {
-                    setState(() {
-                      isBlack = !isBlack;
-                    });
-                  });
-                },
-              ),
-              SizedBox(height: 10),
-              RaisedButton(
-                child: Text("Start Timer"),
-                onPressed: () {
-                  counter = 0;
-                  isStop = false;
-                  Timer.periodic(Duration(seconds: 1), (timer) {
-                    if (isStop) timer.cancel();
-                    setState(() {
-                      counter++;
-                    });
-                  });
-                },
-              ),
-              SizedBox(height: 10),
-              RaisedButton(
-                child: Text("Stop Timer"),
-                onPressed: () {
-                  isStop = true;
-                },
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
+  }
+}
+
+class ProductState with ChangeNotifier {
+  int _quantity = 0;
+
+  int get quantity => _quantity;
+  set quantity(int newValue) {
+    _quantity = newValue;
+    notifyListeners();
   }
 }
