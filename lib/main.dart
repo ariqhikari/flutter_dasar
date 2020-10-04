@@ -14,48 +14,50 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BlocProvider<ColorBloc>(
-        create: (context) => ColorBloc(Colors.amber),
-        child: MainPage(),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: firstColor,
+          title: Text("Product Card"),
+        ),
+        body: ChangeNotifierProvider<ProductState>(
+          create: (context) => ProductState(),
+          child: Container(
+            margin: EdgeInsets.all(20),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Consumer<ProductState>(
+                builder: (context, productState, _) => ProductCard(
+                  imageURL:
+                      "https://www.healthyeating.org/images/default-source/home-0.0/nutrition-topics-2.0/general-nutrition-wellness/2-2-2-3foodgroups_fruits_detailfeature.jpg",
+                  name: "Buah-buahan Mix 1 kg",
+                  price: "Rp25.000",
+                  quantity: productState.quantity,
+                  notification:
+                      (productState.quantity > 5) ? "Diskon 10%" : null,
+                  onAddCartTap: () {},
+                  onIncTap: () {
+                    productState.quantity++;
+                  },
+                  onDecTap: () {
+                    productState.quantity--;
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
 }
 
-class MainPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    ColorBloc bloc = BlocProvider.of<ColorBloc>(context);
-    return Scaffold(
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FloatingActionButton(
-            backgroundColor: Colors.amber,
-            onPressed: () {
-              bloc.add(ColorEvent.to_amber);
-            },
-          ),
-          SizedBox(width: 10),
-          FloatingActionButton(
-            backgroundColor: Colors.lightBlue,
-            onPressed: () {
-              bloc.add(ColorEvent.to_lightBlue);
-            },
-          ),
-        ],
-      ),
-      appBar: AppBar(title: Text("BLoC dengan flutter_bloc")),
-      body: Center(
-        child: BlocBuilder<ColorBloc, Color>(
-          builder: (context, currentColor) => AnimatedContainer(
-            width: 200,
-            height: 200,
-            color: currentColor,
-            duration: Duration(milliseconds: 500),
-          ),
-        ),
-      ),
-    );
+class ProductState with ChangeNotifier {
+  int _quantity = 0;
+
+  int get quantity => _quantity;
+  set quantity(int newValue) {
+    _quantity = newValue;
+    notifyListeners();
   }
 }
