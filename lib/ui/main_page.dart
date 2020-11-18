@@ -1,50 +1,50 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_first_flutter/bloc/user_bloc.dart';
-import 'package:my_first_flutter/ui/widgets/user_card.dart';
-import 'package:my_first_flutter/model/user.dart';
+import 'package:my_first_flutter/bloc/color_bloc.dart';
+import 'package:my_first_flutter/bloc/counter_bloc.dart';
+import 'package:my_first_flutter/ui/second_page.dart';
+import 'package:my_first_flutter/ui/template/draft_page.dart';
 
 class MainPage extends StatelessWidget {
-  final Random random = Random();
-  int beforeId;
-  int nowId;
-
   @override
   Widget build(BuildContext context) {
-    UserBloc bloc = BlocProvider.of<UserBloc>(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
-        title: Text("Demo MVVM"),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          RaisedButton(
-            color: Colors.blueGrey,
-            child: Text(
-              "Pick Random User",
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              this.nowId = random.nextInt(10) + 1;
-
-              while (this.beforeId == this.nowId) {
-                this.nowId = random.nextInt(10) + 1;
-              }
-
-              this.beforeId = this.nowId;
-              bloc.add(this.beforeId);
-            },
+    return BlocBuilder<ColorBloc, Color>(
+      builder: (context, color) => DraftPage(
+        backgroundColor: color,
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              BlocBuilder<CounterBloc, int>(
+                builder: (context, number) => Text(
+                  number.toString(),
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              RaisedButton(
+                child: Text(
+                  "Click to Change",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                color: color,
+                shape: StadiumBorder(),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SecondPage(),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-          BlocBuilder<UserBloc, User>(
-            builder: (context, user) =>
-                (user is UninitializedUser) ? Container() : UserCard(user),
-          ),
-        ],
+        ),
       ),
     );
   }
