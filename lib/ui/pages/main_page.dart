@@ -1,58 +1,16 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:my_first_flutter/ui/widgets/movie_box.dart';
+import 'package:my_first_flutter/ui/switch_day_night.dart';
 
-class MainPage extends StatefulWidget {
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  double currentPageValue = 0;
-  PageController controller =
-      PageController(initialPage: 0, viewportFraction: 0.5);
-  List<String> urls = [
-    "https://upload.wikimedia.org/wikipedia/en/3/3c/JumanjiTheNextLevelTeaserPoster.jpg",
-    "http://www.impawards.com/2018/posters/black_panther_ver21_xlg.jpg",
-    "https://images-na.ssl-images-amazon.com/images/I/81%2BQBMFfHlL._AC_SL1500_.jpg",
-    "https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTQ3NjM@._V1_UX182_CR0,0,182,268_AL_.jpg"
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(() {
-      setState(() {
-        currentPageValue = controller.page;
-      });
-    });
-  }
-
+class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text("Widget Slider"),
+        backgroundColor: Colors.purple,
+        title: Text("Rive + Flutter"),
       ),
-      body: PageView.builder(
-        controller: controller,
-        itemCount: urls.length,
-        itemBuilder: (context, index) {
-          double difference = index - currentPageValue;
-          if (difference < 0) {
-            difference *= -1;
-          }
-          difference = min(1, difference);
-
-          return Center(
-            child: MovieBox(
-              urls[index],
-              scale: 1 - (difference * 0.3),
-            ),
-          );
-        },
+      body: Center(
+        child: SwitchDayNight(),
       ),
     );
   }
