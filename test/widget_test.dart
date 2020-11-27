@@ -5,26 +5,26 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_test/flutter_test.dart';
 
-import 'package:my_first_flutter/main.dart';
-import 'package:my_first_flutter/person.dart';
+// import 'package:my_first_flutter/main.dart';
+// import 'package:my_first_flutter/person.dart';
 
-void main() {
-  Person p = Person(name: "Dodi", age: 10);
+// void main() {
+//   Person p = Person(name: "Dodi", age: 10);
 
-  if (p == Person(name: "Dodi", age: 10)) {
-    print("sama");
-  } else {
-    print("tidak sama");
-  }
+//   if (p == Person(name: "Dodi", age: 10)) {
+//     print("sama");
+//   } else {
+//     print("tidak sama");
+//   }
 
-  List<Person> persons = [p];
+//   List<Person> persons = [p];
 
-  if (persons.contains(Person(name: "Dodi", age: 10))) {
-    print("ada");
-  } else {
-    print("tidak ada");
-  }
-}
+//   if (persons.contains(Person(name: "Dodi", age: 10))) {
+//     print("ada");
+//   } else {
+//     print("tidak ada");
+//   }
+// }
