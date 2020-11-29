@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "909904229889",
+    "firebase_url": "https://authentication-demo-ec292.firebaseio.com",
+    "project_id": "authentication-demo-ec292",
+    "storage_bucket": "authentication-demo-ec292.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909904229889:android:c929bd478e4f8d94393200",
+        "android_client_info": {
+          "package_name": "com.example.my_first_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909904229889-rdsfubktohg1st5uq1dh1g8btcpu5v3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCleIZVdg8MIdAJfqdaTMk_7tsWEb7r6H0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909904229889-rdsfubktohg1st5uq1dh1g8btcpu5v3t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
