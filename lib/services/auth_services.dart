@@ -16,6 +16,38 @@ class AuthServices {
     }
   }
 
+  static Future<auth.User> signUp({String email, String password}) async {
+    try {
+      auth.UserCredential result = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      auth.User firebaseUser = result.user;
+
+      return firebaseUser;
+    } catch (e) {
+      print(e.toString());
+
+      return null;
+    }
+  }
+
+  static Future<auth.User> signIn({String email, String password}) async {
+    try {
+      auth.UserCredential result = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      auth.User firebaseUser = result.user;
+
+      return firebaseUser;
+    } catch (e) {
+      print(e.toString());
+
+      return null;
+    }
+  }
+
   static Future<void> signOut() async {
     _auth.signOut();
   }
