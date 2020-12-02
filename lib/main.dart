@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  OneSignal.shared
+      .init("0204bb81-9b27-4d28-91a3-c8ffb25e4ffd", iOSSettings: null);
+  OneSignal.shared
+      .setInFocusDisplayType(OSNotificationDisplayType.notification);
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -13,68 +22,58 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  String title = "Title";
+  String content = "Content";
+  String url = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    OneSignal.shared
+        .setNotificationReceivedHandler((OSNotification notification) {
+      setState(() {
+        title = notification.payload.title;
+        content = notification.payload.body;
+        url = notification.payload.bigPicture;
+      });
+    });
+
+    OneSignal.shared
+        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+      print("Notifikasi di-tap");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Shimmer Demo")),
+      appBar: AppBar(title: Text("One Signal Demo")),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Container(
-                  width: 200,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        "https://lumiere-a.akamaihd.net/v1/images/star-wars-the-rise-of-skywalker-theatrical-poster-1000_ebc74357.jpeg",
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Shimmer(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    stops: [0.4, 0.5, 0.6],
-                    colors: [
-                      Color.fromRGBO(224, 224, 224, 0),
-                      Color.fromRGBO(224, 224, 224, 0.8),
-                      Color.fromRGBO(224, 224, 224, 0),
-                    ],
-                  ),
-                  child: Container(
-                    width: 200,
-                    height: 300,
-                    color: Colors.red,
-                  ),
-                ),
-              ],
-            ),
+            Text(title),
             SizedBox(height: 20),
-            Shimmer(
-              direction: ShimmerDirection.rtl,
-              gradient: LinearGradient(
-                stops: [0.45, 0.5, 0.55],
-                colors: [
-                  Colors.black,
-                  Colors.white,
-                  Colors.black,
-                ],
-              ),
-              child: Text(
-                "Star Wars: The Rise of Skywalker",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            )
+            Text(content),
+            SizedBox(height: 20),
+            (url != "")
+                ? Container(
+                    width: 400,
+                    height: 500,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(url),
+                      ),
+                    ),
+                  )
+                : SizedBox(),
           ],
         ),
       ),
