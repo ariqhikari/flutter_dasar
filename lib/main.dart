@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 
 void main() => runApp(MyApp());
 
@@ -45,30 +44,7 @@ class _MainPageState extends State<MainPage>
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: 200,
-              child: LottieBuilder.asset(
-                "assets/animations/orang-bawa-kardus.json",
-                controller: controller,
-              ),
-            ),
-            Text(
-              "Featured Lottie Animation by Bilal Arief",
-              style: GoogleFonts.poppins(),
-            ),
-            RaisedButton(
-              child: Text(
-                "Play Animation",
-                style: GoogleFonts.poppins(),
-              ),
-              onPressed: () {
-                controller.value = 0;
-                controller.forward();
-              },
-            ),
-          ],
+          children: [],
         ),
       ),
     );
