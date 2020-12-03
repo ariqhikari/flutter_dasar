@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:local_auth/local_auth.dart';
+import 'package:my_first_flutter/cubit/counter_cubit.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,97 +15,55 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainPage extends StatefulWidget {
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  bool isAvailable = false;
-  bool isAuthenticated = false;
-  String text = "Please Check Biometric Availability";
-  LocalAuthentication localAuthentication = LocalAuthentication();
+class MainPage extends StatelessWidget {
+  final CounterCubit counterCubit = CounterCubit();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Biometric Authentication")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              width: 200,
-              margin: EdgeInsets.only(bottom: 6),
-              child: RaisedButton(
-                child: Text(
-                  "Check Biometrics",
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                onPressed: () async {
-                  isAvailable = await localAuthentication.canCheckBiometrics;
-                  if (isAvailable) {
-                    List<BiometricType> types =
-                        await localAuthentication.getAvailableBiometrics();
-                    text = "Biometrics Available:";
-                    for (var item in types) {
-                      text += "\n- $item";
-                    }
-                  }
-                  setState(() {});
-                },
-              ),
-            ),
-            Container(
-              width: 200,
-              child: RaisedButton(
-                child: Text(
-                  "Authenticate",
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                onPressed: (isAvailable)
-                    ? () async {
-                        isAuthenticated = await localAuthentication
-                            .authenticateWithBiometrics(
-                                localizedReason: "Please Authenticate",
-                                stickyAuth: true,
-                                useErrorDialogs: true);
-                        setState(() {});
-                      }
-                    : null,
-              ),
-            ),
-            Container(
-              width: 50,
-              height: 50,
-              margin: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: (isAuthenticated) ? Colors.green : Colors.red,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 3,
-                    spreadRadius: 2,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height / 2,
-              color: Colors.grey[200],
-              child: Center(
-                child: Text(
-                  text,
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15,
-                  ),
+    return BlocProvider<CounterCubit>(
+      create: (context) => counterCubit,
+      child: Scaffold(
+        appBar: AppBar(title: Text("Cubit State Management")),
+        body: Column(
+          children: [
+            Flexible(
+              flex: 1,
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Cubit State Management",
+                      style: GoogleFonts.poppins(
+                        fontSize: 25,
+                      ),
+                    ),
+                    BlocBuilder<CounterCubit, CounterState>(
+                      builder: (_, cubitState) => Text(
+                        (cubitState is CounterStateFilled)
+                            ? "${cubitState.value}"
+                            : "-",
+                        style: GoogleFonts.poppins(
+                          fontSize: 35,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    RaisedButton(
+                      child: Text(
+                        "+",
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      onPressed: () {
+                        counterCubit.increment(1);
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
