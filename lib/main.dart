@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_first_flutter/cubit/counter_cubit.dart';
+import 'package:lottie/lottie.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,57 +14,59 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainPage extends StatelessWidget {
-  final CounterCubit counterCubit = CounterCubit();
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CounterCubit>(
-      create: (context) => counterCubit,
-      child: Scaffold(
-        appBar: AppBar(title: Text("Cubit State Management")),
-        body: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Lottie Animation Demo",
+          style: GoogleFonts.poppins(),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(
-              flex: 1,
-              child: Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Cubit State Management",
-                      style: GoogleFonts.poppins(
-                        fontSize: 25,
-                      ),
-                    ),
-                    BlocBuilder<CounterCubit, CounterState>(
-                      builder: (_, cubitState) => Text(
-                        (cubitState is CounterStateFilled)
-                            ? "${cubitState.value}"
-                            : "-",
-                        style: GoogleFonts.poppins(
-                          fontSize: 35,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    RaisedButton(
-                      child: Text(
-                        "+",
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      onPressed: () {
-                        counterCubit.increment(1);
-                      },
-                    ),
-                  ],
-                ),
+            SizedBox(
+              width: double.infinity,
+              height: 200,
+              child: LottieBuilder.asset(
+                "assets/animations/orang-bawa-kardus.json",
+                controller: controller,
               ),
+            ),
+            Text(
+              "Featured Lottie Animation by Bilal Arief",
+              style: GoogleFonts.poppins(),
+            ),
+            RaisedButton(
+              child: Text(
+                "Play Animation",
+                style: GoogleFonts.poppins(),
+              ),
+              onPressed: () {
+                controller.value = 0;
+                controller.forward();
+              },
             ),
           ],
         ),
