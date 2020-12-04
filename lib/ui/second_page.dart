@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_first_flutter/ui/third_page.dart';
 
 class SecondPage extends StatelessWidget {
   @override
@@ -22,13 +21,21 @@ class SecondPage extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            RaisedButton(
-              onPressed: () async {
-                String result = await Get.to<String>(ThirdPage());
-                print("====> " + result);
-              },
-              child: Text("Go to Third Page"),
-            )
+            Column(
+              children:
+                  (Get.arguments as List<String>).map((e) => Text(e)).toList() +
+                      [
+                        Text(Get.parameters["name"]),
+                        Text(Get.parameters["from"]),
+                      ],
+            ),
+            // RaisedButton(
+            //   onPressed: () async {
+            //     String result = await Get.toNamed<String>("/third");
+            //     print("====> " + result);
+            //   },
+            //   child: Text("Go to Third Page"),
+            // )
           ],
         ),
       ),

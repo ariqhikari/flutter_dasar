@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_first_flutter/ui/second_page.dart';
 
 class MainPage extends StatelessWidget {
   @override
@@ -12,7 +11,10 @@ class MainPage extends StatelessWidget {
       body: Center(
         child: RaisedButton(
           onPressed: () {
-            Get.to(SecondPage());
+            Get.toNamed(
+              "/second?name=Ariq Hikari&from=Indonesia",
+              arguments: ["Hello", "World"],
+            );
           },
           child: Text("Go to Second Page"),
         ),
