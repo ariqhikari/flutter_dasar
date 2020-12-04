@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:supercharged/supercharged.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,230 +15,69 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatelessWidget {
-  final List<Person> persons = [
-    Person('Doni', 47),
-    Person('Ayu', 20),
-    Person('Zorro', 33),
-    Person('Charlie', 21)
-  ];
+  final int amount = 1000000;
 
   @override
   Widget build(BuildContext context) {
-    List<Person> sortedPersons =
-        persons.sortedByString((element) => element.name);
-    List<List<Person>> groupsOfTwo = sortedPersons.chunked(2).toList();
-    Map<String, List<Person>> groupByAge =
-        sortedPersons.groupBy((element) => element.age < 40 ? "young" : "old");
-    DateTime twentyThreeMinutesAgo = 23.minutes.ago();
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: "#999900".toColor(),
-        title: Text(
-          "Supercharge Demo",
-          style: GoogleFonts.poppins(),
-        ),
+        title: Text("Currency Format"),
+        backgroundColor: Colors.pink,
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 3),
-              child: Text(
-                'List Person:',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF990000),
-                ),
-              ),
-            ),
-            // * note: list person
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: sortedPersons
-                  .map(
-                    (e) => Text(
-                      "> ${e.name} [${e.age}]",
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 3),
-              child: Text(
-                'Age of the Oldest:',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF990000),
-                ),
-              ),
-            ),
-            // * note: age of the oldest
             Text(
-              "${persons.map((e) => e.age).max()} years old",
+              "normal",
               style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 3),
-              child: Text(
-                'Average age:',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF990000),
-                ),
-              ),
-            ),
-            // * note: average age
             Text(
-              "${persons.averageBy((e) => e.age)} years old",
+              amount.toString(),
               style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontSize: 35,
+                fontWeight: FontWeight.w600,
+                color: Colors.pink[700],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 3),
-              child: Text(
-                'Groups of 2:',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF990000),
-                ),
-              ),
-            ),
-            // * note: group of 2
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: groupsOfTwo[0]
-                      .map(
-                        (e) => Text(
-                          "> ${e.name} [${e.age}]",
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-                SizedBox(
-                  width: 40,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: groupsOfTwo[1]
-                      .map(
-                        (e) => Text(
-                          "> ${e.name} [${e.age}]",
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 3),
-              child: Text(
-                'Groups by age:',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF990000),
-                ),
-              ),
-            ),
-            // * note: group by age
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: groupByAge["young"]
-                      .map(
-                        (e) => Text(
-                          "> ${e.name} [${e.age}]",
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-                SizedBox(
-                  width: 40,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: groupByAge["old"]
-                      .map(
-                        (e) => Text(
-                          "> ${e.name} [${e.age}]",
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 3),
-              child: Text(
-                'This time:',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF990000),
-                ),
-              ),
-            ),
-            // * note: this time
+            SizedBox(height: 10),
             Text(
-              "${DateTime.now().hour} : ${DateTime.now().minute}",
+              "currency",
               style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 3),
-              child: Text(
-                '23 minutes ago:',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF990000),
-                ),
-              ),
-            ),
-            // * note: 23 minutes ago
             Text(
-              "${twentyThreeMinutesAgo.hour} : ${twentyThreeMinutesAgo.minute}",
+              NumberFormat.currency(
+                locale: "id",
+                symbol: "Rp ",
+                decimalDigits: 0,
+              ).format(amount),
               style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontSize: 35,
+                fontWeight: FontWeight.w600,
+                color: Colors.pink[700],
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              "compact currency",
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              NumberFormat.compactCurrency(
+                locale: "id",
+                symbol: "Rp ",
+                decimalDigits: 0,
+              ).format(amount),
+              style: GoogleFonts.poppins(
+                fontSize: 35,
+                fontWeight: FontWeight.w600,
+                color: Colors.pink[700],
               ),
             ),
           ],
@@ -246,11 +85,4 @@ class MainPage extends StatelessWidget {
       ),
     );
   }
-}
-
-class Person {
-  String name;
-  int age;
-
-  Person(this.name, this.age);
 }
