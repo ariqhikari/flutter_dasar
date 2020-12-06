@@ -1,189 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:my_first_flutter/bloc/counter_bloc.dart' as bloc;
-import 'package:my_first_flutter/cubit/counter_cubit.dart' as cubit;
+import 'package:url_launcher/url_launcher.dart';
 
-void main() => runApp(
-      MyApp(),
-    );
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => bloc.CounterBloc()),
-          BlocProvider(create: (_) => cubit.CounterCubit()),
-        ],
-        child: MainPage(),
+      home: MainPage(),
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("URL Launcher Demo")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            LaunchButton("Call", () async {
+              await call("+6285156567283");
+            }),
+            LaunchButton("SMS", () async {
+              await sendSMS("+6285156567283");
+            }),
+            LaunchButton("Email", () async {
+              await sendEmail("ahidayatbia@gmail.com");
+            }),
+            LaunchButton("URL", () async {
+              await openURL(
+                "https://google.com",
+                forceWebView: true,
+                enableJavascript: true,
+              );
+            }),
+          ],
+        ),
       ),
     );
   }
 }
 
-class MainPage extends StatefulWidget {
-  @override
-  _MainPageState createState() => _MainPageState();
-}
+class LaunchButton extends StatelessWidget {
+  final String text;
+  final Function onTap;
 
-class _MainPageState extends State<MainPage> {
+  LaunchButton(this.text, this.onTap);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Flexible(
-            flex: 1,
-            child: Container(
-              color: Colors.black,
-              height: double.infinity,
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Bloc State Management",
-                    style:
-                        GoogleFonts.poppins(fontSize: 25, color: Colors.white),
-                  ),
-                  BlocBuilder<bloc.CounterBloc, bloc.CounterState>(
-                    builder: (_, state) => Text(
-                      (state is bloc.InitializedCounter)
-                          ? "${state.number}"
-                          : "-",
-                      style: GoogleFonts.poppins(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      context.read<bloc.CounterBloc>().add(bloc.Increment());
-                    },
-                    child: Text(
-                      "+",
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RaisedButton(
-                        onPressed: () {
-                          context.read<bloc.CounterBloc>().undo();
-                        },
-                        child: Text(
-                          "Undo",
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          context.read<bloc.CounterBloc>().redo();
-                        },
-                        child: Text(
-                          "Redo",
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Cubit State Management",
-                    style: GoogleFonts.poppins(
-                      fontSize: 25,
-                    ),
-                  ),
-                  BlocBuilder<cubit.CounterCubit, cubit.CounterState>(
-                    builder: (_, state) => Text(
-                      (state is cubit.InitializedCounter)
-                          ? "${state.number}"
-                          : "-",
-                      style: GoogleFonts.poppins(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      context.read<cubit.CounterCubit>().increment();
-                    },
-                    child: Text(
-                      "+",
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RaisedButton(
-                        onPressed: () {
-                          context.read<cubit.CounterCubit>().undo();
-                        },
-                        child: Text(
-                          "Undo",
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          context.read<cubit.CounterCubit>().redo();
-                        },
-                        child: Text(
-                          "Redo",
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
+    return SizedBox(
+      width: 200,
+      child: RaisedButton(
+        child: Text(text),
+        color: Colors.blue[100],
+        onPressed: onTap,
       ),
+    );
+  }
+}
+
+Future<void> call(String phoneNumber) async {
+  await launch("tel:$phoneNumber");
+}
+
+Future<void> sendSMS(String phoneNumber) async {
+  await launch("sms:$phoneNumber");
+}
+
+Future<void> sendEmail(String email) async {
+  await launch("mailto:$email");
+}
+
+Future<void> openURL(
+  String url, {
+  bool forceWebView = false,
+  bool enableJavascript = false,
+}) async {
+  if (await canLaunch(url)) {
+    await launch(
+      url,
+      forceWebView: forceWebView,
+      enableJavaScript: enableJavascript,
     );
   }
 }
